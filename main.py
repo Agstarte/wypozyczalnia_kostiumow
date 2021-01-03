@@ -18,6 +18,7 @@ cursor = database.cursor()
 # for x in my_cursor:
 #   print(x)
 
+'''example of sql query'''
 cursor.execute("SELECT * FROM klient")
 clients = cursor.fetchall()
 for client in clients:
