@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import *
 import mysql.connector
-
+import main_window
 
 root = tk.Tk()
 root.title('Wypozyczalnia kostiumow - login')
@@ -29,7 +29,8 @@ def log_me():
         password=password.get(),
         database="wypozyczalnia_kostiumow"
     )
-    print(database)
+    root.destroy()
+    main_window.main_window(database)
 
 
 blank = Label(root)
