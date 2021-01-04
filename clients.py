@@ -128,7 +128,6 @@ def clients(database, root):
 
     def exit_function():
         top.destroy()
-        main_window(root)
 
     blank = Label(top)
     blank.pack()
