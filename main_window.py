@@ -2,12 +2,22 @@ import tkinter as tk
 from tkinter import Text
 import os
 import mysql.connector
+import test
 
-def main_window(database):
+
+
+def main_window(database, root):
     print(database)
     root = tk.Tk()
     root.title('Wypozyczalnia kostiumow')
-    root.geometry("350x350")
+    w = 350
+    h = 350
+    ws = root.winfo_screenwidth()  # width of the screen
+    hs = root.winfo_screenheight()  # height of the screen
+    x = (ws / 2) - (w / 2)
+    y = (hs / 2) - (h / 2)
+    root.geometry('%dx%d+%d+%d' % (w, h, x, y))
+
 
     # canvas = tk.Canvas(root, height=350, width=350, bg="#c3a7a8")
     # canvas.pack()
@@ -15,6 +25,7 @@ def main_window(database):
 
     def button1_function():
         print("You clicked button1")
+        test.test(database, root)
 
 
     def button2_function():

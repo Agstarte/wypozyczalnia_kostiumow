@@ -1,6 +1,5 @@
 import mysql.connector
-
-import mysql.connector
+import main_window
 
 '''connecting to local database'''
 database = mysql.connector.connect(
@@ -23,3 +22,5 @@ cursor.execute("SELECT * FROM klient")
 clients = cursor.fetchall()
 for client in clients:
     print(client)
+
+main_window.main_window(database)
