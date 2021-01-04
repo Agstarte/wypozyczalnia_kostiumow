@@ -7,7 +7,6 @@ import clients
 
 
 def main_window(database, root):
-    print(database)
     root = tk.Tk()
     root.title('Wypożyczalnia kostiumów')
     w = 350
