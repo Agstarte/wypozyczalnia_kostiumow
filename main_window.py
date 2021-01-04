@@ -2,14 +2,14 @@ import tkinter as tk
 from tkinter import Text
 import os
 import mysql.connector
-import test
+import clients
 
 
 
 def main_window(database, root):
     print(database)
     root = tk.Tk()
-    root.title('Wypozyczalnia kostiumow')
+    root.title('Wypożyczalnia kostiumów')
     w = 350
     h = 350
     ws = root.winfo_screenwidth()  # width of the screen
@@ -23,22 +23,14 @@ def main_window(database, root):
     # canvas.pack()
 
 
-    def button1_function():
+    def clients_function():
         print("You clicked button1")
-        test.test(database, root)
-
-
-    def button2_function():
-        print("You clicked button2")
-
+        clients.clients(database, root)
 
     text = tk.Label(root, text='tutaj tekst', padx=50, pady=5)
     text.grid(row=0, column=2)
 
-    button1 = tk.Button(root, text="Button", padx=10, pady=5, fg="black", bg="#bfa7a8", command=button1_function)
-    button1.grid(row=2, column=2)
-
-    button2 = tk.Button(root, text="Button2", padx=10, pady=5, bg="#bfa7a8", fg="black", command=button2_function)
-    button2.grid(row=2, column=4)
+    clients_button = tk.Button(root, text="Zarządzanie klientami", padx=10, pady=5, fg="black", bg="#bfa7a8", command=clients_function)
+    clients_button.grid(row=2, column=2)
 
     root.mainloop()
