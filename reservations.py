@@ -6,10 +6,10 @@ from tkinter import *
 from tkinter import messagebox
 
 
-def products(database, root):
+def reservations(database, root):
     root.withdraw()  # minimalizowanie głównego okna
     top = Toplevel()
-    top.title("Zarządzanie produktami")
+    top.title("Zarządzanie rezerwacjami")
     top.geometry(f"350x350+{root.winfo_x()}+{root.winfo_y()}")
 
     def exit_function():

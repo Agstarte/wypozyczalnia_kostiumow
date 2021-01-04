@@ -4,6 +4,8 @@ from tkinter import Text
 import os
 import mysql.connector
 import clients
+import reservations
+import products
 
 
 def main_window(database, root):
@@ -24,12 +26,10 @@ def main_window(database, root):
         clients.clients(database, root)
 
     def products_function():
-        print("Zarządzanie produktami")
-        # clients.clients(database, root)
+        products.products(database, root)
 
     def reservations_function():
-        print("Zarządzanie rezerwacjami")
-        # clients.clients(database, root)
+        reservations.reservations(database, root)
 
     blank = Label(root)
     blank.pack()
