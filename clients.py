@@ -6,9 +6,8 @@ import os
 import mysql.connector
 
 
-
 def clients(database, root):
-    root.withdraw()
+    root.withdraw()     # minimalizowanie głównego okna
     top = Toplevel()
     top.title("Zarządzanie klientami")
     top.geometry(f"350x350+{root.winfo_x()}+{root.winfo_y()}")
@@ -16,7 +15,7 @@ def clients(database, root):
     def add_function():
         add_client = Toplevel()
         add_client.title("Dodaj klienta")
-        add_client.geometry(f"350x250+{top.winfo_x()}+{top.winfo_y()+50}")
+        add_client.geometry(f"350x250+{top.winfo_x()}+{top.winfo_y() + 50}")
 
         blank = Label(add_client)
         blank.grid(row=0, column=1)
@@ -74,7 +73,7 @@ def clients(database, root):
     def show_function():
         show_client = Toplevel()
         show_client.title("Wyświetl klienta")
-        show_client.geometry(f"350x250+{top.winfo_x()}+{top.winfo_y()+50}")
+        show_client.geometry(f"350x250+{top.winfo_x()}+{top.winfo_y() + 50}")
 
         blank = Label(show_client)
         blank.grid(row=0, column=1)
@@ -106,12 +105,11 @@ def clients(database, root):
 
                 for i in range(5):
                     e = tk.Entry(show_client, disabledforeground="black")
-                    e.grid(row=6+i, column=2)
+                    e.grid(row=6 + i, column=2)
                     e.insert(END, str(client[0][i]))
                     e.config(state='disabled')
             except:
                 messagebox.showerror("Błąd", "Wprowadzono niepoprawny identyfikator.")
-
 
         blank = Label(show_client)
         blank.grid(row=3, column=1)
@@ -166,8 +164,8 @@ def clients(database, root):
             cursor = database.cursor()
             # cursor.execute(f"SELECT * FROM klient WHERE id_osoby = {client_id.get()}")
             # client = cursor.fetchall()
-            print(str(dane[0].get()) + '//' + str(dane[1].get()) + '//' + str(dane[2].get()) + '//' + str(dane[3].get()) + '//' + str(dane[4].get()))
-            if str(dane[0].get()) == '' or str(dane[1].get()) == '' or str(dane[2].get()) == '' or str(dane[3].get()) == '':
+            if str(dane[0].get()) == '' or str(dane[1].get()) == '' or str(dane[2].get()) == '' or str(
+                    dane[3].get()) == '':
                 messagebox.showerror("Błąd", "Identyfikator, Imię, Nazwisko i numer telefonu nie mogą być puste!")
                 return
             try:
@@ -189,7 +187,6 @@ def clients(database, root):
         update_button = Button(edit_client, text="Aktualizuj", fg="black", bg="#bfa7a8", width=10, command=update)
         update_button.grid(row=4, column=2)
         update_button.configure(state=DISABLED)
-
 
         edit_client.mainloop()
 
@@ -228,7 +225,7 @@ def clients(database, root):
     blank.pack()
 
     exit_button = tk.Button(top, text="Powrót", padx=30, pady=5, fg="black", bg="#bfa7a8",
-                                    command=exit_function)
+                            command=exit_function)
     exit_button.pack()
     top.protocol("WM_DELETE_WINDOW", exit_function)
     top.mainloop()
