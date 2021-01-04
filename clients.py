@@ -8,21 +8,73 @@ import mysql.connector
 
 
 def clients(database, root):
-    top = Toplevel()
+    top = tk.Tk()
+    # top = Toplevel()
     top.title("Zarządzanie klientami")
     top.geometry(f"350x350+{root.winfo_x()}+{root.winfo_y()}")
 
     def add_function():
         add_client = Toplevel()
         add_client.title("Dodaj klienta")
-        add_client.geometry(f"350x350+{top.winfo_x()}+{top.winfo_y()}")
+        add_client.geometry(f"350x250+{top.winfo_x()}+{top.winfo_y()+50}")
+
+        blank = Label(add_client)
+        blank.grid(row=0, column=1)
+        blank = Label(add_client, width=6)
+        blank.grid(row=0, column=0)
+        Label(add_client, text="Podaj dane nowego klienta").grid(row=1, column=1, columnspan=2)
+
+        columns = ["id_osoby", "imię", "nazwisko", "numer telefonu", "e-mail"]
+        dane = []
+        for i in range(5):
+            e = tk.Entry(add_client, disabledforeground="black")
+            e.grid(row=6 + i, column=1)
+            e.insert(END, columns[i])
+            e.config(state='disabled')
+            e = tk.Entry(add_client, disabledforeground="black")
+            e.grid(row=6 + i, column=2)
+            e.insert(END, '')
+            dane.append(e)
+
+        def add():
+            cursor = database.cursor()
+            # cursor.execute(f"SELECT * FROM klient WHERE id_osoby = {client_id.get()}")
+            # client = cursor.fetchall()
+
+            if str(dane[1].get()) == '' or str(dane[2].get()) == '' or str(dane[3].get()) == '':
+                messagebox.showerror("Błąd", "Imię, Nazwisko i numer telefonu nie mogą być puste!")
+                return
+            try:
+                if str(dane[0].get()) != '' and str(dane[4].get()) != '':
+                    cursor.execute(f"INSERT INTO klient (id_osoby, imie, nazwisko, nr_tel, email)"
+                                   f"VALUES ({dane[0].get()},'{dane[1].get()}','{dane[2].get()}','{dane[3].get()}','{dane[4].get()}')")
+                elif str(dane[0].get()) != '' and str(dane[4].get()) == '':
+                    cursor.execute(f"INSERT INTO klient (id_osoby, imie, nazwisko, nr_tel)"
+                                   f"VALUES ({dane[0].get()},'{dane[1].get()}','{dane[2].get()}','{dane[3].get()}')")
+                elif str(dane[0].get()) == '' and str(dane[4].get()) != '':
+                    cursor.execute(f"INSERT INTO klient (imie, nazwisko, nr_tel, email)"
+                                   f"VALUES ('{dane[1].get()}','{dane[2].get()}','{dane[3].get()}','{dane[4].get()}')")
+                else:
+                    cursor.execute(f"INSERT INTO klient (imie, nazwisko, nr_tel)"
+                                   f"VALUES ('{dane[1].get()}','{dane[2].get()}','{dane[3].get()}')")
+            except Exception as e:
+                messagebox.showerror("Błąd", e)
+                return
+            messagebox.showinfo("Informacja", "Pomyślnie dodano klienta")
+            database.commit()
+
+        blank = Label(add_client)
+        blank.grid(row=11, column=1)
+        Button(add_client, text="Dodaj", fg="black", bg="#bfa7a8", command=add).grid(row=12, column=1, columnspan=2)
+        blank = Label(add_client)
+        blank.grid(row=5, column=1)
+
+        add_client.mainloop()
 
     def show_function():
-        global client_id
-
         show_client = Toplevel()
         show_client.title("Wyświetl klienta")
-        show_client.geometry(f"350x350+{top.winfo_x()}+{top.winfo_y()}")
+        show_client.geometry(f"350x250+{top.winfo_x()}+{top.winfo_y()+50}")
 
         blank = Label(show_client)
         blank.grid(row=0, column=1)
@@ -69,9 +121,6 @@ def clients(database, root):
 
         show_client.mainloop()
 
-
-
-
     def edit_function():
         edit_client = Toplevel()
         edit_client.title("Modyfikuj dane klienta")
@@ -79,6 +128,7 @@ def clients(database, root):
 
     def exit_function():
         top.destroy()
+        main_window(root)
 
     blank = Label(top)
     blank.pack()
