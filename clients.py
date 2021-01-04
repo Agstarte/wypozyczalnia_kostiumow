@@ -8,6 +8,7 @@ import mysql.connector
 
 
 def clients(database, root):
+    root.withdraw()
     top = Toplevel()
     top.title("Zarządzanie klientami")
     top.geometry(f"350x350+{root.winfo_x()}+{root.winfo_y()}")
@@ -127,6 +128,7 @@ def clients(database, root):
 
     def exit_function():
         top.destroy()
+        root.deiconify()
 
     blank = Label(top)
     blank.pack()
