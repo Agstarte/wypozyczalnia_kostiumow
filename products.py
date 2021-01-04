@@ -1,3 +1,7 @@
+import tkinter as tk
+from tkinter import Text
+import os
+import mysql.connector
 
-print("product")
-print("product")
+def product(database):
+    pass
