@@ -8,8 +8,7 @@ import mysql.connector
 
 
 def clients(database, root):
-    top = tk.Tk()
-    # top = Toplevel()
+    top = Toplevel()
     top.title("Zarządzanie klientami")
     top.geometry(f"350x350+{root.winfo_x()}+{root.winfo_y()}")
 
@@ -162,3 +161,4 @@ def clients(database, root):
     exit_button = tk.Button(top, text="Powrót", padx=30, pady=5, fg="black", bg="#bfa7a8",
                                     command=exit_function)
     exit_button.pack()
+    top.mainloop()
