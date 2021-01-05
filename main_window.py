@@ -31,6 +31,9 @@ def main_window(database, root):
     def reservations_function():
         reservations.reservations(database, root)
 
+    def exit_function():
+        root.destroy()
+
     blank = Label(root)
     blank.pack()
     blank = Label(root)
@@ -40,22 +43,29 @@ def main_window(database, root):
     blank = Label(root)
     blank.pack()
 
-    clients_button = tk.Button(root, text="Zarządzanie klientami", padx=20, pady=5, fg="black", bg="#bfa7a8",
+    clients_button = tk.Button(root, text="Zarządzanie klientami", width=25, pady=5, fg="black", bg="#bfa7a8",
                                command=clients_function)
     clients_button.pack()
 
     blank = Label(root)
     blank.pack()
 
-    products_button = tk.Button(root, text="Zarządzanie produktami", padx=13, pady=5, fg="black", bg="#bfa7a8",
+    products_button = tk.Button(root, text="Zarządzanie produktami", width=25, pady=5, fg="black", bg="#bfa7a8",
                                 command=products_function)
     products_button.pack()
 
     blank = Label(root)
     blank.pack()
 
-    reservations_button = tk.Button(root, text="Zarządzanie rezerwacjami", padx=10, pady=5, fg="black", bg="#bfa7a8",
+    reservations_button = tk.Button(root, text="Zarządzanie rezerwacjami", width=25, pady=5, fg="black", bg="#bfa7a8",
                                     command=reservations_function)
     reservations_button.pack()
+
+    blank = Label(root)
+    blank.pack()
+
+    exit_button = tk.Button(root, text="Zakończ", width=15, pady=5, fg="black", bg="#bfa7a8",
+                            command=exit_function)
+    exit_button.pack()
 
     root.mainloop()

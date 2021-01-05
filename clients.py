@@ -59,8 +59,8 @@ def clients(database, root):
             except Exception as e:
                 messagebox.showerror("Błąd", e)
                 return
-            messagebox.showinfo("Informacja", "Pomyślnie dodano klienta")
             database.commit()
+            messagebox.showinfo("Informacja", f"Pomyślnie dodano klienta o id: {cursor.lastrowid}")
 
         blank = Label(add_client)
         blank.grid(row=11, column=1)
@@ -203,28 +203,28 @@ def clients(database, root):
     blank = Label(top)
     blank.pack()
 
-    clients_button = tk.Button(top, text="         Dodaj klienta         ", padx=15, pady=5, fg="black", bg="#bfa7a8",
+    clients_button = tk.Button(top, text="Dodaj klienta", width=25, pady=5, fg="black", bg="#bfa7a8",
                                command=add_function)
     clients_button.pack()
 
     blank = Label(top)
     blank.pack()
 
-    products_button = tk.Button(top, text="      Wyświetl klienta      ", padx=15, pady=5, fg="black", bg="#bfa7a8",
+    products_button = tk.Button(top, text="Wyświetl klienta", width=25, pady=5, fg="black", bg="#bfa7a8",
                                 command=show_function)
     products_button.pack()
 
     blank = Label(top)
     blank.pack()
 
-    reservations_button = tk.Button(top, text="Modyfikuj dane klienta", padx=15, pady=5, fg="black", bg="#bfa7a8",
+    reservations_button = tk.Button(top, text="Modyfikuj dane klienta", width=25, pady=5, fg="black", bg="#bfa7a8",
                                     command=edit_function)
     reservations_button.pack()
 
     blank = Label(top)
     blank.pack()
 
-    exit_button = tk.Button(top, text="Powrót", padx=30, pady=5, fg="black", bg="#bfa7a8",
+    exit_button = tk.Button(top, text="Powrót", width=15, pady=5, fg="black", bg="#bfa7a8",
                             command=exit_function)
     exit_button.pack()
     top.protocol("WM_DELETE_WINDOW", exit_function)

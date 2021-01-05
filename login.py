@@ -23,7 +23,7 @@ blank.pack()
 login = Entry(root, width=20)
 password = Entry(root, width=20, show="*")
 login_label = Label(root, text="Login", width=10)
-password_label = Label(root, text="Haslo")
+password_label = Label(root, text="Hasło")
 
 login_label.pack()
 login.pack()
