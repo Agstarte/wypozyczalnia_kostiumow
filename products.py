@@ -45,7 +45,6 @@ def products(database, root):
                     return
 
                 try:
-                    #
                     cursor.execute(
                         f"INSERT INTO produkt (id_produktu, nazwa, liczba_wszystkich_sztuk, liczba_dostepnych_sztuk, id_opisu, cena)"
                         f"VALUES ('{dane[0].get()}','{dane[1].get()}','{dane[2].get()}','{dane[3].get()}','{dane[4].get()}','{dane[5].get()}')")
