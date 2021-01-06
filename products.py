@@ -39,18 +39,23 @@ def products(database, root):
             def add():
                 cursor = database.cursor()
 
-                if str(dane[0].get()) == '' or str(dane[1].get()) == '' or str(dane[2].get()) == '' or str(dane[3].get()) == '' or str(dane[4].get()) == '' or str(dane[5].get()) == '':
+                if str(dane[1].get()) == '' or str(dane[2].get()) == '' or str(dane[3].get()) == '' or str(dane[4].get()) == '' or str(dane[5].get()) == '':
                     messagebox.showerror("Błąd", "Id produktu, nazwa, liczba wszystkich sztuk, liczba dostępnych "
                                                  "sztuk, id_opisu ani cena nie mogą być puste!")
                     return
 
-                else:
+                try:
                     cursor.execute(
                         f"INSERT INTO produkt (id_produktu, nazwa, liczba_wszystkich_sztuk, liczba_dostepnych_sztuk, id_opisu, cena)"
                         f"VALUES ('{dane[0].get()}','{dane[1].get()}','{dane[2].get()}','{dane[3].get()}','{dane[4].get()}','{dane[5].get()}')")
+                except Exception as e:
+                    messagebox.showerror("Błąd", e)
+                    return
 
                 database.commit()
                 messagebox.showinfo("Informacja", "Pomyślnie dodano produkt")
+
+
 
             blank = Label(add_product)
             blank.grid(row=21, column=1)
