@@ -40,7 +40,7 @@ def products(database, root):
                 cursor = database.cursor()
 
                 if str(dane[1].get()) == '' or str(dane[2].get()) == '' or str(dane[3].get()) == '' or str(dane[4].get()) == '' or str(dane[5].get()) == '':
-                    messagebox.showerror("Błąd", "Id produktu, nazwa, liczba wszystkich sztuk, liczba dostępnych "
+                    messagebox.showerror("Błąd", "Nazwa, liczba wszystkich sztuk, liczba dostępnych "
                                                  "sztuk, id_opisu ani cena nie mogą być puste!")
                     return
 
