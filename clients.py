@@ -60,7 +60,12 @@ def clients(database, root):
                 messagebox.showerror("Błąd", e)
                 return
             database.commit()
-            messagebox.showinfo("Informacja", f"Pomyślnie dodano klienta o id: {cursor.lastrowid}")
+
+            if str(dane[0].get()) == '':
+                messagebox.showinfo("Informacja", f"Pomyślnie dodano klienta o id: {cursor.lastrowid}")
+            else:
+                messagebox.showinfo("Informacja", f"Pomyślnie dodano klienta o id: {str(dane[0].get())}")
+
 
         blank = Label(add_client)
         blank.grid(row=11, column=1)
@@ -154,6 +159,7 @@ def clients(database, root):
                 if str(client[0][0]) == 'None':
                     return
                 for i in range(5):
+                    dane[i].delete(0, 'end')
                     dane[i].config(state='normal')
                     dane[i].insert(END, str(client[0][i]))
                 update_button.configure(state=NORMAL)
