@@ -147,14 +147,28 @@ def products(database, root):
             try:
                 cursor = database.cursor()
                 cursor.execute(f"SELECT * FROM produkt WHERE id_produktu = {client_id.get()}")
-                client = cursor.fetchall()
+                product = cursor.fetchall()
 
-                if str(client[0][0]) == 'None':
+                if str(product[0][0]) == 'None':
                     return
-                for i in range(6):
+
+                dane[0].delete(0, 'end')
+                dane[0].config(state='normal')
+                dane[0].insert(END, str(product[0][0]))
+                dane[0].config(state='disabled')
+
+
+                for i in range(1, 6):
+                    dane[i].delete(0, 'end')
                     dane[i].config(state='normal')
-                    dane[i].insert(END, str(client[0][i]))
+                    dane[i].insert(END, str(product[0][i]))
                 update_button.configure(state=NORMAL)
+
+                # for i in range(6):
+                #     dane[i].delete(0, 'end')
+                #     dane[i].config(state='normal')
+                #     dane[i].insert(END, str(client[0][i]))
+                # update_button.configure(state=NORMAL)
             except:
                 messagebox.showerror("Błąd", "Wprowadzono niepoprawny identyfikator.")
 
