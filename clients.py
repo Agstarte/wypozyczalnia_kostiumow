@@ -60,6 +60,7 @@ def clients(database, root):
                 messagebox.showerror("Błąd", e)
                 return
             database.commit()
+
             if str(dane[0].get()) == '':
                 messagebox.showinfo("Informacja", f"Pomyślnie dodano klienta o id: {cursor.lastrowid}")
             else:
