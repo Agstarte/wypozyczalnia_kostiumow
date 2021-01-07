@@ -105,7 +105,7 @@ def products(database, root):
                     e.config(state='disabled')
             except:
                 messagebox.showerror("Błąd", "Wprowadzono niepoprawny identyfikator.")
-
+#
         blank = Label(show_product)
         blank.grid(row=3, column=1)
         Button(show_product, text="Pokaż", fg="black", bg="#bfa7a8", command=show).grid(row=4, column=1,
