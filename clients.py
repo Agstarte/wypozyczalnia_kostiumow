@@ -159,6 +159,7 @@ def clients(database, root):
                 if str(client[0][0]) == 'None':
                     return
                 for i in range(5):
+                    dane[i].delete(0, 'end')
                     dane[i].config(state='normal')
                     dane[i].insert(END, str(client[0][i]))
                 update_button.configure(state=NORMAL)
