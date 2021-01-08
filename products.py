@@ -256,8 +256,6 @@ def products(database, root):
 
         add_copy.mainloop()
 
-
-
     def show_copy_function():
         show_copy = Toplevel()
         show_copy.title("Wyświetl egzemplarz")
@@ -287,15 +285,15 @@ def products(database, root):
             try:
                 cursor = database.cursor()
                 cursor.execute(f"SELECT * FROM egzemplarz WHERE id_produktu = {copy_id.get()}")
-                product = cursor.fetchall()
+                copy = cursor.fetchall()
 
-                if str(product[0][0]) == 'None':
+                if str(copy[0][0]) == 'None':
                     return
 
                 for i in range(5):
                     e = tk.Entry(show_copy, disabledforeground="black")
                     e.grid(row=6 + i, column=2)
-                    e.insert(END, str(product[0][i]))
+                    e.insert(END, str(copy[0][i]))
                     e.config(state='disabled')
             except:
                 messagebox.showerror("Błąd", "Wprowadzono niepoprawny identyfikator.")
@@ -304,7 +302,7 @@ def products(database, root):
         blank = Label(show_copy)
         blank.grid(row=3, column=1)
         Button(show_copy, text="Pokaż", fg="black", bg="#bfa7a8", command=show).grid(row=4, column=1,
-                                                                                        columnspan=2)
+                                                                                     columnspan=2)
         blank = Label(show_copy)
         blank.grid(row=5, column=1)
 
@@ -357,8 +355,6 @@ def products(database, root):
 
     blank = Label(top)
     blank.pack()
-
-
 
     exit_button = tk.Button(top, text="Powrót", width=15, pady=5, fg="black", bg="#bfa7a8",
                             command=exit_function)
