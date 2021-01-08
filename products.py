@@ -10,7 +10,7 @@ def products(database, root):
     root.withdraw()  # minimalizowanie głównego okna
     top = Toplevel()
     top.title("Zarządzanie produktami")
-    top.geometry(f"350x350+{root.winfo_x()}+{root.winfo_y()}")
+    top.geometry(f"350x550+{root.winfo_x()}+{root.winfo_y()}")
 
     def add_function():
         add_product = Toplevel()
