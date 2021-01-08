@@ -74,8 +74,8 @@ def products(database, root):
         blank = Label(show_product, width=6)
         blank.grid(row=0, column=0)
         Label(show_product, text="Podaj identyfikator produktu").grid(row=1, column=1, columnspan=2)
-        client_id = Entry(show_product, width=20)
-        client_id.grid(row=2, column=1, columnspan=2)
+        product_id = Entry(show_product, width=20)
+        product_id.grid(row=2, column=1, columnspan=2)
 
         columns = ["id_produktu", "nazwa", "liczba_wszystkich_sztuk", "liczba_dostepnych_sztuk", "id_opisu", "cena"]
 
@@ -92,20 +92,21 @@ def products(database, root):
         def show():
             try:
                 cursor = database.cursor()
-                cursor.execute(f"SELECT * FROM produkt WHERE id_produktu = {client_id.get()}")
-                client = cursor.fetchall()
+                cursor.execute(f"SELECT * FROM produkt WHERE id_produktu = {product_id.get()}")
+                product = cursor.fetchall()
 
-                if str(client[0][0]) == 'None':
+                if str(product[0][0]) == 'None':
                     return
 
                 for i in range(6):
                     e = tk.Entry(show_product, disabledforeground="black")
                     e.grid(row=6 + i, column=2)
-                    e.insert(END, str(client[0][i]))
+                    e.insert(END, str(product[0][i]))
                     e.config(state='disabled')
             except:
                 messagebox.showerror("Błąd", "Wprowadzono niepoprawny identyfikator.")
-#
+
+        #
         blank = Label(show_product)
         blank.grid(row=3, column=1)
         Button(show_product, text="Pokaż", fg="black", bg="#bfa7a8", command=show).grid(row=4, column=1,
@@ -126,8 +127,8 @@ def products(database, root):
         blank = Label(edit_product, width=6)
         blank.grid(row=0, column=0)
         Label(edit_product, text="Podaj identyfikator produktu").grid(row=1, column=1, columnspan=2)
-        client_id = Entry(edit_product, width=20)
-        client_id.grid(row=2, column=1, columnspan=2)
+        product_id = Entry(edit_product, width=20)
+        product_id.grid(row=2, column=1, columnspan=2)
 
         columns = ["id_produktu", "nazwa", "liczba_wszystkich_sztuk", "liczba_dostepnych_sztuk", "id_opisu", "cena"]
         dane = []
@@ -146,7 +147,7 @@ def products(database, root):
         def show():
             try:
                 cursor = database.cursor()
-                cursor.execute(f"SELECT * FROM produkt WHERE id_produktu = {client_id.get()}")
+                cursor.execute(f"SELECT * FROM produkt WHERE id_produktu = {product_id.get()}")
                 product = cursor.fetchall()
 
                 if str(product[0][0]) == 'None':
@@ -157,6 +158,16 @@ def products(database, root):
                 dane[0].insert(END, str(product[0][0]))
                 dane[0].config(state='disabled')
 
+                # for i in range(6):
+                #     if i==0:
+                #         dane[0].delete(0, 'end')
+                #         dane[0].config(state='normal')
+                #         dane[0].insert(END, str(product[0][0]))
+                #         dane[0].config(state='disabled')
+                #     dane[i].delete(0, 'end')
+                #     dane[i].config(state='normal')
+                #     dane[i].insert(END, str(product[0][i]))
+                # update_button.configure(state=NORMAL)
 
                 for i in range(1, 6):
                     dane[i].delete(0, 'end')
@@ -164,11 +175,6 @@ def products(database, root):
                     dane[i].insert(END, str(product[0][i]))
                 update_button.configure(state=NORMAL)
 
-                # for i in range(6):
-                #     dane[i].delete(0, 'end')
-                #     dane[i].config(state='normal')
-                #     dane[i].insert(END, str(client[0][i]))
-                # update_button.configure(state=NORMAL)
             except:
                 messagebox.showerror("Błąd", "Wprowadzono niepoprawny identyfikator.")
 
@@ -182,7 +188,7 @@ def products(database, root):
             try:
                 cursor.execute(f"UPDATE produkt SET id_produktu = {dane[0].get()}, nazwa = '{dane[1].get()}',"
                                f" liczba_wszystkich_sztuk = '{dane[2].get()}', liczba_dostepnych_sztuk = '{dane[3].get()}', id_opisu = '{dane[4].get()}', cena = '{dane[5].get()}'"
-                               f"WHERE id_produktu = {client_id.get()}")
+                               f"WHERE id_produktu = {product_id.get()}")
             except Exception as e:
                 messagebox.showerror("Błąd", e)
                 return
@@ -200,6 +206,58 @@ def products(database, root):
         update_button.configure(state=DISABLED)
         edit_product.mainloop()
 
+    def add_copies():
+        add_copy = Toplevel()
+        add_copy.title("Dodaj produkt")
+        add_copy.geometry(f"350x250+{top.winfo_x()}+{top.winfo_y() + 50}")
+
+        blank = Label(add_copy)
+        blank.grid(row=0, column=1)
+        blank = Label(add_copy, width=6)
+        blank.grid(row=0, column=0)
+        Label(add_copy, text="Podaj dane nowego egzemplarzu").grid(row=1, column=1, columnspan=2)
+
+        columns = ["id_egzemplarza", "id_produktu", "id_rezerwacji", "rozmiar", "stan"]
+        dane = []
+
+        for i in range(5):
+            e = tk.Entry(add_copy, disabledforeground="black")
+            e.grid(row=6 + i, column=1)
+            e.insert(END, columns[i])
+            e.config(state='disabled')
+            e = tk.Entry(add_copy, disabledforeground="black")
+            e.grid(row=6 + i, column=2)
+            e.insert(END, '')
+            dane.append(e)
+
+        def add():
+            cursor = database.cursor()
+
+            if str(dane[0].get()) == '' or str(dane[1].get()) == '':
+                messagebox.showerror("Błąd", "Id_egzemplarza oraz id_produktu nie może być puste")
+                return
+
+            try:
+                cursor.execute(
+                    f"INSERT INTO egzemplarz (id_egzemplarza, id_produktu, id_rezerwacji, rozmiar, stan)"
+                    f"VALUES ('{dane[0].get()}','{dane[1].get()}','{dane[2].get()}','{dane[3].get()}','{dane[4].get()}')")
+            except Exception as e:
+                messagebox.showerror("Błąd", e)
+                return
+
+            database.commit()
+            messagebox.showinfo("Informacja", "Pomyślnie dodano egzemplarz")
+
+        blank = Label(add_copy)
+        blank.grid(row=11, column=1)
+        Button(add_copy, text="Dodaj", fg="black", bg="#bfa7a8", command=add).grid(row=12, column=1, columnspan=2)
+        blank = Label(add_copy)
+        blank.grid(row=5, column=1)
+
+        add_copy.mainloop()
+
+
+
     def exit_function():
         top.destroy()
         root.deiconify()
@@ -212,7 +270,6 @@ def products(database, root):
     blank.pack()
     blank = Label(top)
     blank.pack()
-
 
     add_button = tk.Button(top, text="Dodaj produkt", width=25, pady=5, fg="black", bg="#bfa7a8",
                            command=add_function)
@@ -230,6 +287,13 @@ def products(database, root):
 
     edit_button = tk.Button(top, text="Modyfikuj dane produktu", width=25, pady=5, fg="black", bg="#bfa7a8",
                             command=edit_function)
+    edit_button.pack()
+
+    blank = Label(top)
+    blank.pack()
+
+    edit_button = tk.Button(top, text="Dodaj egzemplarz", width=25, pady=5, fg="black", bg="#bfa7a8",
+                            command=add_copies)
     edit_button.pack()
 
     blank = Label(top)
