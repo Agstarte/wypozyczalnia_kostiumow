@@ -258,6 +258,58 @@ def products(database, root):
 
 
 
+    def show_copy_function():
+        show_copy = Toplevel()
+        show_copy.title("Wyświetl egzemplarz")
+        show_copy.geometry(f"350x250+{top.winfo_x()}+{top.winfo_y() + 50}")
+
+        blank = Label(show_copy)
+        blank.grid(row=0, column=1)
+        blank = Label(show_copy, width=6)
+        blank.grid(row=0, column=0)
+        Label(show_copy, text="Podaj identyfikator egzemplarza").grid(row=1, column=1, columnspan=2)
+        copy_id = Entry(show_copy, width=20)
+        copy_id.grid(row=2, column=1, columnspan=2)
+
+        columns = ["id_egzemplarza", "id_produktu", "id_rezerwacji", "rozmiar", "stan"]
+
+        for i in range(5):
+            e = tk.Entry(show_copy, disabledforeground="black")
+            e.grid(row=6 + i, column=1)
+            e.insert(END, columns[i])
+            e.config(state='disabled')
+            e = tk.Entry(show_copy, disabledforeground="black")
+            e.grid(row=6 + i, column=2)
+            e.insert(END, '')
+            e.config(state='disabled')
+
+        def show():
+            try:
+                cursor = database.cursor()
+                cursor.execute(f"SELECT * FROM egzemplarz WHERE id_egzemplarza = {copy_id.get()}")
+                product = cursor.fetchall()
+
+                if str(product[0][0]) == 'None':
+                    return
+
+                for i in range(5):
+                    e = tk.Entry(show_copy, disabledforeground="black")
+                    e.grid(row=6 + i, column=2)
+                    e.insert(END, str(product[0][i]))
+                    e.config(state='disabled')
+            except:
+                messagebox.showerror("Błąd", "Wprowadzono niepoprawny identyfikator.")
+
+        #
+        blank = Label(show_copy)
+        blank.grid(row=3, column=1)
+        Button(show_copy, text="Pokaż", fg="black", bg="#bfa7a8", command=show).grid(row=4, column=1,
+                                                                                        columnspan=2)
+        blank = Label(show_copy)
+        blank.grid(row=5, column=1)
+
+        show_copy.mainloop()
+
     def exit_function():
         top.destroy()
         root.deiconify()
@@ -298,6 +350,15 @@ def products(database, root):
 
     blank = Label(top)
     blank.pack()
+
+    edit_button = tk.Button(top, text="Wyświetl egzemplarz", width=25, pady=5, fg="black", bg="#bfa7a8",
+                            command=show_copy_function)
+    edit_button.pack()
+
+    blank = Label(top)
+    blank.pack()
+
+
 
     exit_button = tk.Button(top, text="Powrót", width=15, pady=5, fg="black", bg="#bfa7a8",
                             command=exit_function)
