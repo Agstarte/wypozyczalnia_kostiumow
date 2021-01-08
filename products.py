@@ -267,7 +267,7 @@ def products(database, root):
         blank.grid(row=0, column=1)
         blank = Label(show_copy, width=6)
         blank.grid(row=0, column=0)
-        Label(show_copy, text="Podaj identyfikator egzemplarza").grid(row=1, column=1, columnspan=2)
+        Label(show_copy, text="Podaj identyfikator produktu").grid(row=1, column=1, columnspan=2)
         copy_id = Entry(show_copy, width=20)
         copy_id.grid(row=2, column=1, columnspan=2)
 
@@ -286,7 +286,7 @@ def products(database, root):
         def show():
             try:
                 cursor = database.cursor()
-                cursor.execute(f"SELECT * FROM egzemplarz WHERE id_egzemplarza = {copy_id.get()}")
+                cursor.execute(f"SELECT * FROM egzemplarz WHERE id_produktu = {copy_id.get()}")
                 product = cursor.fetchall()
 
                 if str(product[0][0]) == 'None':
@@ -351,7 +351,7 @@ def products(database, root):
     blank = Label(top)
     blank.pack()
 
-    edit_button = tk.Button(top, text="Wyświetl egzemplarz", width=25, pady=5, fg="black", bg="#bfa7a8",
+    edit_button = tk.Button(top, text="Wyświetl egzemplarze", width=25, pady=5, fg="black", bg="#bfa7a8",
                             command=show_copy_function)
     edit_button.pack()
 
