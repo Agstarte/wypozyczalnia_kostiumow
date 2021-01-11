@@ -414,7 +414,7 @@ def products(database, root):
     def show_copies_function():
         show_copies = Toplevel()
         show_copies.title("Wyświetl egzemplarzr produktu")
-        show_copies.geometry(f"650x250+{top.winfo_x() - 150}+{top.winfo_y() + 50}")
+        show_copies.geometry(f"650x400+{top.winfo_x() - 150}+{top.winfo_y() + 50}")
 
         blank = Label(show_copies)
         blank.grid(row=0, column=1)
@@ -449,10 +449,8 @@ def products(database, root):
                     messagebox.showerror("Error", "Wystąpił błąd.")
                     return
 
-               # res = [str(i or '') for i in items]
-
-                print(items)
                 for index in range(len(items)):
+                    items[index] = ['NULL' if v is None else v for v in items[index]]
                     for i in range(nr_of_rows_product):
                         e = tk.Entry(show_copies, disabledforeground="black")
                         e.grid(row=7 + index, column=0 + i)
