@@ -6,6 +6,7 @@ import mysql.connector
 from tkinter import *
 from tkinter import messagebox
 from datetime import datetime
+import codecs
 
 # TODO testy jednostkowe warstwy łącza
 
@@ -15,6 +16,8 @@ products_in_cart_cntr = []
 cart_table = []
 data_ret_reservation = []
 data_modify = []
+curr_price = 0
+data_add = ''
 
 def reservations(database, root):
     root.withdraw()  # minimalizowanie głównego okna
@@ -200,7 +203,7 @@ def reservations(database, root):
         data_reservation[1].insert(END, '14')
         data_reservation[2].insert(END, today)
         data_reservation[3].insert(END, today)
-        data_reservation[4].insert(END, 49.99)
+        data_reservation[4].insert(END, curr_price)
 
         # right panel
         Label(add_reservation, text="Koszyk:").grid(row=1, column=4, columnspan=2)
@@ -223,6 +226,8 @@ def reservations(database, root):
             e.config(state='disabled')
 
         def add_product():
+            global curr_price
+            global products_in_cart
             # sprawdzic czy wpisano cokolwiek
             if str(id_product_field.get()) == '':
                 messagebox.showerror("Błąd", "Nie podano identyfikatora produktu.")
@@ -254,12 +259,19 @@ def reservations(database, root):
                         if products_in_cart_cntr[i] > data_product[0][3]:
                             products_in_cart_cntr[i] = data_product[0][3]
                             messagebox.showerror("Błąd", f"Brak dostępnych egzemplarzy produktu: \n{data_product[0][1]}")
+                        else:
+                            curr_price += data_product[0][2]
+                            data_reservation[4].delete(0, 'end')
+                            data_reservation[4].insert(END, curr_price)
                         curr_repetition_idx = i
                         break
 
                 if is_new and data_product[0][3] > 0:
                     products_in_cart.append(data_product)
                     products_in_cart_cntr.append(1)
+                    curr_price += data_product[0][2]
+                    data_reservation[4].delete(0, 'end')
+                    data_reservation[4].insert(END, curr_price)
                 elif data_product[0][3] <= 0:
                     messagebox.showerror("Błąd", f"Brak dostępnych egzemplarzy produktu: \n{data_product[0][1]}")
 
@@ -269,7 +281,6 @@ def reservations(database, root):
 
             # wyswietlenie zawartosci koszyka w tym aktualnie pobranego produktu
             # danych
-            print(products_in_cart)
 
             # dodanie nowego produktu do tabeli
             last_cart_product = len(products_in_cart) - 1
@@ -286,6 +297,11 @@ def reservations(database, root):
                     e.insert(END, products_in_cart_cntr[curr_repetition_idx])
                     e.config(state='disabled')
                     cart_table.append(e)
+
+            global data_add
+            for i in range(len(products_in_cart)):
+                data_add += f"nazwa: {products_in_cart[last_cart_product][0][1]} \
+                ilość: {products_in_cart_cntr[last_cart_product]} \n"
 
         def remove_product():
             print('remove product')
@@ -394,6 +410,39 @@ def reservations(database, root):
 
             update_items(cursor.lastrowid)
             after_add_clear()
+
+            # generate agreement
+            # get client info
+            query = f"SELECT imie, nazwisko, nr_tel, email FROM klient WHERE id_osoby = {data_reservation[1].get()}"
+            print(query)
+            data_client = []
+            try:
+                cursor.execute(query)
+                data_client = cursor.fetchall()
+            except Exception as ex:
+                messagebox.showerror("Błąd", ex)
+                return
+
+            data = f"---WYPOZYCZALNIA KOSTIUMÓW sp. z.o.o.---\n" \
+                   f"Wypożyczający zobowiązuje sie do oddania wypożyczonych produktów w terminie.\n" \
+                   f"Imię i nazwisko: {data_client[0][0]} {data_client[0][1]}\n" \
+                   f"Nr tel: {data_client[0][2]}\n" \
+                   f"E-mail: {data_client[0][3]}\n" \
+                   f"Data początku rezerwacji: {data_reservation[2].get()}\n" \
+                   f"Data końca rezerwacji: {data_reservation[3].get()}\n" \
+                   f"Cena: {data_reservation[4].get()}[PLN]\n" \
+                   f"--WYPOŻYCZONE PRODUKTY--\n"
+
+            data += data_add
+
+            # write to file
+            file = codecs.open(f"umowy/{data_client[0][0]} {data_client[0][1]} "
+                        f"- umowa.txt", "w", "utf-8")
+            try:
+                file.write(data)
+            except Exception as ex:
+                messagebox.showerror("ERROR", ex)
+            file.close()
 
         # cleenup
         def after_add_clear():
