@@ -613,7 +613,6 @@ def reservations(database, root):
         ret_reservation.mainloop()
 
     def exit_function():
-        print('exit')
         top.destroy()
         root.deiconify()
 

@@ -441,7 +441,7 @@ def products(database, root):
             try:
                 cursor = database.cursor()
                 query = f"SELECT * FROM egzemplarz WHERE id_produktu = {product_id.get()}"
-                print(query)
+                #print(query)
                 cursor.execute(query)
                 items = cursor.fetchall()
 
