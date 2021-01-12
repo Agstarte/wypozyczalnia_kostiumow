@@ -200,7 +200,7 @@ def reservations(database, root):
         # init data
 
         today = str(datetime.today().strftime("%Y-%m-%d"))
-        data_reservation[1].insert(END, '14')
+        data_reservation[1].insert(END, '13')
         data_reservation[2].insert(END, today)
         data_reservation[3].insert(END, today)
         data_reservation[4].insert(END, curr_price)
@@ -436,9 +436,13 @@ def reservations(database, root):
             data += data_add
 
             # write to file
-            file = codecs.open(f"umowy/{data_client[0][0]} {data_client[0][1]} "
-                        f"- umowa.txt", "w", "utf-8")
+            # file = codecs.open(f"umowy/{data_client[0][0]} {data_client[0][1]} "
+            #             f"- umowa.txt", "w", "utf-8")
             try:
+                if not os.path.isdir("./umowy"):
+                    os.mkdir("umowy")
+                file = codecs.open(f"umowy/{data_client[0][0]} {data_client[0][1]} "
+                                   f"- umowa.txt", "w", "utf-8")
                 file.write(data)
             except Exception as ex:
                 messagebox.showerror("ERROR", ex)
