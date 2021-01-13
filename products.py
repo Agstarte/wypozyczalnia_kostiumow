@@ -336,9 +336,9 @@ def products(database, root):
                 if str(copy[0][0]) == 'None':
                     return
                 if str(copy[0][4] == 'dobry'):
-                    combo_box.current(1)
-                else:
                     combo_box.current(0)
+                else:
+                    combo_box.current(1)
 
                 dane[0].config(state='normal')
                 dane[0].delete(0, 'end')
