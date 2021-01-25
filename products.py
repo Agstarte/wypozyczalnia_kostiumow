@@ -356,7 +356,7 @@ def products(database, root):
                 dane[2].delete(0, 'end')
                 dane[2].insert(END, str(copy[0][2]))
                 dane[2].config(state='disabled')
-
+#
                 for i in range(3, 4):
                     dane[i].delete(0, 'end')
                     dane[i].config(state='normal')
