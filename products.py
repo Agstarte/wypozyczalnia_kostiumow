@@ -120,7 +120,7 @@ def products(database, root):
     def edit_function():
 
         edit_product = Toplevel()
-        edit_product.title("Modyfikuj dane produktu")
+        edit_product.title("Modyfikuj dane produktu/Usuń produkt")
         edit_product.geometry(f"400x250+{top.winfo_x()}+{top.winfo_y() + 50}")
 
         blank = Label(edit_product)
