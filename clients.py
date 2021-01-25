@@ -154,14 +154,14 @@ def clients(database, root):
             try:
                 cursor = database.cursor()
                 cursor.execute(f"SELECT * FROM klient WHERE id_osoby = {client_id.get()}")
-                client = cursor.fetchall()
+                product = cursor.fetchall()
 
-                if str(client[0][0]) == 'None':
+                if str(product[0][0]) == 'None':
                     return
                 for i in range(5):
                     dane[i].delete(0, 'end')
                     dane[i].config(state='normal')
-                    dane[i].insert(END, str(client[0][i]))
+                    dane[i].insert(END, str(product[0][i]))
                 update_button.configure(state=NORMAL)
             except:
                 messagebox.showerror("Błąd", "Wprowadzono niepoprawny identyfikator.")

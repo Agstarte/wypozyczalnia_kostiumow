@@ -281,10 +281,12 @@ def products(database, root):
                 return
 
             database.commit()
-            messagebox.showinfo("Informacja", "Pomyślnie dodano egzemplarz")
+            # messagebox.showinfo("Informacja", "Pomyślnie dodano egzemplarz")
 
-        blank = Label(add_copy)
-        blank.grid(row=11, column=1)
+            if str(dane[0].get()) == '':
+                messagebox.showinfo("Informacja", f"Pomyślnie dodano egzemplarz o id: {cursor.lastrowid}")
+            else:
+                messagebox.showinfo("Informacja", f"Pomyślnie dodano egzemplarz o id: {str(dane[0].get())}")
         Button(add_copy, text="Dodaj", fg="black", bg="#bfa7a8", command=add).grid(row=12, column=1, columnspan=2)
         blank = Label(add_copy)
         blank.grid(row=5, column=1)
@@ -347,12 +349,12 @@ def products(database, root):
 
                 dane[1].config(state='normal')
                 dane[1].delete(0, 'end')
-                dane[1].insert(END, str(copy[0][0]))
+                dane[1].insert(END, str(copy[0][1]))
                 dane[1].config(state='disabled')
 
                 dane[2].config(state='normal')
                 dane[2].delete(0, 'end')
-                dane[2].insert(END, str(copy[0][0]))
+                dane[2].insert(END, str(copy[0][2]))
                 dane[2].config(state='disabled')
 
                 for i in range(3, 4):

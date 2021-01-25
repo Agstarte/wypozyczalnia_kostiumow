@@ -303,6 +303,7 @@ def reservations(database, root):
                 data_add += f"nazwa: {products_in_cart[last_cart_product][0][1]} \
                 ilość: {products_in_cart_cntr[last_cart_product]} \n"
 
+
         def remove_product():
             print('remove product')
 
