@@ -376,7 +376,7 @@ def products(database, root):
             except Exception as e:
                 messagebox.showerror("Błąd", e)
                 return
-            messagebox.showinfo("Informacja", "Pomyślnie zmieniono dane produktu")
+            messagebox.showinfo("Informacja", "Pomyślnie zmieniono dane egzemplarza")
             database.commit()
             query = f"CALL aktualizacja_liczby_sztuk_produktu({copy_id.get()})"
             print(query)
